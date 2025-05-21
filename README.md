@@ -6,14 +6,16 @@ This is a minimalist, Obsidian-inspired note-taking app that runs entirely in yo
 
 ---
 
-## Features (MVP)
+## Features (MVP — In Progress)
 
-- [ ] Create and edit Markdown notes in a split editor/preview layout
-- [ ] Store and retrieve notes using browser `localStorage`
-- [ ] Sidebar to navigate between notes
+- [x] Create and edit Markdown notes in a split editor/preview layout
+- [x] Store and retrieve notes using browser `localStorage`
+- [x] Sidebar with toggle visibility
+- [ ] Navigate between multiple notes
 - [ ] Parse `[[backlinks]]` to create internal links
 - [ ] View notes that link *to* the current note (backlinks section)
-- [ ] Responsive, minimalist UI
+- [x] Responsive, minimalist UI with Tailwind
+- [x] Custom modals and toast notifications for UX
 
 ---
 
@@ -33,19 +35,20 @@ This is a minimalist, Obsidian-inspired note-taking app that runs entirely in yo
 
 All notes are stored **only in your browser** using `localStorage`.
 
-- No notes are ever sent to a server.
-- If you clear your browser data or switch devices, your notes will be lost unless exported manually.
-- This means your notes are private, secure, and offline by design.
-- Backup regularly if you're writing anything important!
+- ✅ No notes are ever sent to a server
+- ❌ If you clear your browser data or switch devices, your notes will be lost unless exported manually
+- ✅ Your notes are private, secure, and offline by design
+- 🛟 Backup regularly if you're writing anything important!
 
 ---
 
 ## File Structure
 
 ```
-index.html      # The app's main UI
-style.css       # Styles (or Tailwind via CDN)
-script.js       # App logic for editing, storage, and rendering
+index.html      # The app's main layout and structure
+style.css       # Optional global styles (currently used only for smooth scrolling)
+script.js       # Core app logic (editor, save/load, scroll sync)
+modal.js        # Modal, confirm dialog, and toast system
 README.md       # Project description and progress
 ```
 

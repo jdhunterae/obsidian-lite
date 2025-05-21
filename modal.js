@@ -57,13 +57,8 @@ function showToast(message, duration = 3000) {
 
   setTimeout(() => {
     toast.classList.remove('opacity-100');
-    toast.addEventListener(
-      'transitionend',
-      () => toast.remove(),
-      {
-        once: true,
-      },
-      duration
-    );
+    toast.addEventListener('transitionend', () => toast.remove(), {
+      once: true,
+    });
   });
 }

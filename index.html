@@ -12,37 +12,47 @@
   </head>
 
   <body class="bg-gray-100 text-gray-800 font-sans">
-    <header
-      class="bg-gray-800 text-white p-4 flex justify-between items-center"
-    >
-      <div class="space-x-2">
-        <button
-          id="save"
-          class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-sm"
-        >
-          💾 Save
-        </button>
-        <button
-          id="reset"
-          class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm"
-        >
-          🗑️ Clear Note
-        </button>
+    <!-- Header -->
+    <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <!-- Left section: controls -->
+      <div class="flex items-center gap-2">
+        <button id="toggle-sidebar" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded text-sm">☰</button>
+        <button id="new-note" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-sm">🗎 New</button>
+        <button id="save" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-sm">💾 Save</button>
+        <button id="reset" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-sm">🗑️ Clear Note</button>
       </div>
-      <h1 class="text-xl font-bold">Obsidian-Lite Note</h1>
+    
+      <!-- Right section: title -->
+      <div>
+        <h1 class="text-xl font-bold whitespace-nowrap">Obsidian-Lite Note</h1>
+      </div>
     </header>
+    
 
-    <main class="flex h-[calc(100vh-64px)]">
-      <textarea
-        id="editor"
-        class="w-1/2 p-4 border-r border-gray-300 resize-none outline-none"
-        placeholder="Write some Markdown..."
-      ></textarea>
-      <div
-        id="preview"
-        class="w-1/2 p-4 overflow-auto bg-white prose prose-sm max-w-none"
-      ></div>
-    </main>
+    <!-- Main layout with sidebar and editor -->
+    <div class="flex h-[calc(100vh-64px)]">
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="w-64 bg-white border-r border-gray-300 p-4 overflow-y-auto transition-transform duration-300"
+      >
+        <h2 class="text-lg font-semibold mb-2">Your Notes</h2>
+        <ul id="note-list" class="space-y-1"></ul>
+      </aside>
+
+      <!-- Editor and Preview Pane -->
+      <main id="main-pane" class="flex flex-grow transition-all duration-300">
+        <textarea
+          id="editor"
+          class="flex-1 p-4 border-r border-gray-300 resize-none outline-none"
+          placeholder="Write some Markdown..."
+        ></textarea>
+        <div
+          id="preview"
+          class="flex-1 p-4 overflow-auto bg-white prose max-w-none"
+        ></div>
+      </main>
+    </div>
 
     <!-- Modal -->
     <div
@@ -55,11 +65,12 @@
       </div>
     </div>
 
-    <!-- Toast -->
+    <!-- Toast Container -->
     <div
       id="toast-container"
       class="fixed bottom-4 right-4 space-y-2 z-50"
     ></div>
+
     <script src="modal.js"></script>
     <script src="script.js"></script>
   </body>

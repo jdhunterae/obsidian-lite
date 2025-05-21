@@ -2,6 +2,9 @@ const editor = document.getElementById('editor');
 const preview = document.getElementById('preview');
 const saveButton = document.getElementById('save');
 const resetButton = document.getElementById('reset');
+const sidebar = document.getElementById('sidebar');
+const mainPane = document.getElementById('main-pane');
+const toggleSidebarButton = document.getElementById('toggle-sidebar');
 
 const SAVE_KEY = 'obsidian-lite-note';
 const AUTOSAVE_KEY = 'obsidian-lite-autosave';
@@ -59,4 +62,20 @@ resetButton?.addEventListener('click', () => {
       preview.innerHTML = '';
     }
   });
+});
+
+toggleSidebarButton.addEventListener('click', () => {
+  const isHidden = sidebar.classList.toggle('hidden');
+
+  if (isHidden) {
+    editor.classList.remove('w-1/2');
+    preview.classList.remove('w-1/2');
+    editor.classList.add('w-1/2', 'md:w-1/2', 'lg:w-1/2');
+    preview.classList.add('w-1/2', 'md:w-1/2', 'lg:w-1/2');
+  } else {
+    editor.classList.remove('w-1/2');
+    preview.classList.remove('w-1/2');
+    editor.classList.add('w-full');
+    preview.classList.add('w-full');
+  }
 });
