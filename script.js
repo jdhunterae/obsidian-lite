@@ -16,25 +16,64 @@ function renderSidebar() {
   let notes = Note.list();
 
   // Sort alphabetically by title
-  notes.sort((a,b)=>a.title.localeCompare(b.title));
+  notes.sort((a, b) => a.title.localeCompare(b.title));
 
   // Move active note to the top
   if (activeNote) {
-    notes = [activeNote, ...notes.filter(n=>n.id !== activeNote.id)];
+    notes = [activeNote, ...notes.filter((n) => n.id !== activeNote.id)];
   }
 
   for (const note of notes) {
     const li = document.createElement('li');
-    li.textContent = note.title;
     li.className =
       'px-3 py-2 rounded cursor-pointer text-sm font-medium text-gray-800 hover:bg-gray-200 transition truncate';
 
+    let titleText = note.title;
     if (note.id === activeNote?.id) {
       li.classList.add('bg-blue-100', 'text-blue-800', 'font-semibold');
+
+      if (NoteSession.hasUnsaved()) {
+        titleText = `* ${titleText}`;
+      }
     }
+    li.textContent = titleText;
 
     li.addEventListener('click', () => {
-      loadNote(note);
+      if (note.id === activeNote?.id) return;
+
+      if (NoteSession.hasUnsaved()) {
+        showModal({
+          message: 'You have unsaved changes. What would you like to do?',
+          buttons: [
+            {
+              label: 'Save changes',
+              variant: 'blue',
+              action: () => {
+                activeNote.content = editor.value;
+                activeNote.save();
+                NoteSession.clearAutosave();
+                NoteSession.clearUnsaved();
+                loadNote(note);
+              },
+            },
+            {
+              label: 'Discard changes',
+              variant: 'red',
+              action: () => {
+                NoteSession.clearAutosave();
+                NoteSession.clearUnsaved();
+                loadNote(note);
+              },
+            },
+            {
+              label: 'Cancel',
+              variant: 'gray',
+            },
+          ],
+        });
+      } else {
+        loadNote(note);
+      }
     });
 
     noteList.appendChild(li);
@@ -43,6 +82,7 @@ function renderSidebar() {
 
 function loadNote(note) {
   activeNote = note;
+  NoteSession.clearUnsaved();
   editor.value = note.content;
   preview.innerHTML = marked.parse(note.content);
   NoteSession.setActiveNoteId(note.id);
@@ -55,8 +95,8 @@ function loadAutosave() {
 
   const saved = Note.load(autosave.noteId);
   if (!saved) {
-    // orphaned autosave
     activeNote = new Note(autosave.noteId, autosave.content);
+    NoteSession.markUnsaved();
     return true;
   }
 
@@ -64,6 +104,7 @@ function loadAutosave() {
     return confirmModal('Unsaved draft found. Restore it?').then((restore) => {
       if (restore) {
         activeNote = new Note(saved.id, autosave.content);
+        NoteSession.markUnsaved();
       } else {
         activeNote = saved;
         NoteSession.clearAutosave();
@@ -93,9 +134,11 @@ function loadAutosave() {
 // Save button logic
 saveButton.addEventListener('click', () => {
   if (!activeNote) return;
+
   activeNote.content = editor.value;
   activeNote.save();
   NoteSession.clearAutosave();
+  NoteSession.clearUnsaved();
   showToast('Note saved successfully');
   renderSidebar();
 });
@@ -105,6 +148,7 @@ editor.addEventListener('input', () => {
   const markdown = editor.value;
   preview.innerHTML = marked.parse(markdown);
   NoteSession.setAutosave({ noteId: activeNote?.id, content: markdown });
+  renderSidebar();
 });
 
 // Scroll sync: approximate line mapping
@@ -129,10 +173,7 @@ resetButton?.addEventListener('click', () => {
 });
 
 newNoteButton.addEventListener('click', () => {
-  const autosave = NoteSession.getAutosave();
-  const hasUnsaved =
-    autosave &&
-    (autosave.noteId === null || autosave.content !== activeNote?.content);
+  const hasUnsaved = NoteSession.hasUnsaved();
 
   if (hasUnsaved) {
     showModal({
@@ -146,6 +187,7 @@ newNoteButton.addEventListener('click', () => {
               activeNote.content = editor.value;
               activeNote.save();
               NoteSession.clearAutosave();
+              NoteSession.clearUnsaved();
               const newNote = Note.createNew();
               loadNote(newNote);
             }
@@ -156,6 +198,7 @@ newNoteButton.addEventListener('click', () => {
           variant: 'red',
           action: () => {
             NoteSession.clearAutosave();
+            NoteSession.clearUnsaved();
             const newNote = Note.createNew();
             loadNote(newNote);
           },
@@ -168,6 +211,7 @@ newNoteButton.addEventListener('click', () => {
     });
   } else {
     NoteSession.clearAutosave();
+    NoteSession.clearUnsaved();
     const newNote = Note.createNew();
     loadNote(newNote);
   }
