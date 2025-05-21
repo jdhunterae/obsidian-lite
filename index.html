@@ -4,22 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Obsidian-Lite Project</title>
+    <title>Obsidian-Lite Note</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   </head>
 
   <body>
     <header>
-      <h1>Obsidian-Lite</h1>
+      <h1>Obsidian-Lite Note</h1>
+      <button id="save">💾 Save</button>
+      <button id="clear">🗑️ Clear Note</button>
     </header>
 
     <main class="container">
       <textarea id="editor" placeholder="Write some Markdown..."></textarea>
       <div id="preview"></div>
     </main>
-      
+
     <script src="script.js"></script>
   </body>
 </html>
