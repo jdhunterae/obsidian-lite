@@ -10,6 +10,7 @@ This is a minimalist, Obsidian-inspired note-taking app that runs entirely in yo
 
 - [x] Create and edit Markdown notes in a split editor/preview layout
 - [x] Store and retrieve notes using browser `localStorage`
+- [x] Abstracted `Note` model for future-proof storage and logic separation
 - [x] Sidebar with toggle visibility
 - [ ] Navigate between multiple notes
 - [ ] Parse `[[backlinks]]` to create internal links
@@ -28,6 +29,7 @@ This is a minimalist, Obsidian-inspired note-taking app that runs entirely in yo
 - [ ] Graph view of note connections (inspired by Obsidian)
 - [ ] Drag-and-drop note rearrangement
 - [ ] Offline install via PWA
+- [ ] Switch from `marked.js` to `markdown-it` to support extended Markdown syntax (footnotes, containers, etc.)
 
 ---
 
@@ -49,6 +51,7 @@ index.html      # The app's main layout and structure
 style.css       # Optional global styles (currently used only for smooth scrolling)
 script.js       # Core app logic (editor, save/load, scroll sync)
 modal.js        # Modal, confirm dialog, and toast system
+note.js         # Note model abstraction for clean logic and future storage flexibility
 README.md       # Project description and progress
 ```
 
