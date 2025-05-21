@@ -1,44 +1,5 @@
+/* smooth scroll syncing */
+html,
 body {
-  margin: 0;
-  font-family: system-ui, sans-serif;
-  background: #f8f9fa;
-  color: #333;
-}
-
-header {
-  background: #343a40;
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
-}
-
-.container {
-  display: flex;
-  height: calc(100vh - 80px); /* header height offset */
-}
-
-#editor,
-#preview {
-  width: 50%;
-  height: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-  border: none;
-  resize: none;
-  overflow: auto;
-}
-
-#editor {
-  font-family: monospace;
-  background: #fff;
-  border-right: 1px solid #ccc;
-}
-
-#preview {
-  background: #fdfdfd;
-}
-
-h1,
-h2 {
-  margin-top: 0;
+  scroll-behavior: smooth;
 }
