@@ -1,17 +1,27 @@
+const mainPane = document.getElementById('main-pane');
 const editor = document.getElementById('editor');
 const preview = document.getElementById('preview');
+const sidebar = document.getElementById('sidebar');
+const noteList = document.getElementById('note-list');
+
+const newNoteButton = document.getElementById('new-note');
 const saveButton = document.getElementById('save');
 const resetButton = document.getElementById('reset');
-const sidebar = document.getElementById('sidebar');
-const mainPane = document.getElementById('main-pane');
 const toggleSidebarButton = document.getElementById('toggle-sidebar');
-const noteList = document.getElementById('note-list');
 
 let activeNote = null;
 
 function renderSidebar() {
   noteList.innerHTML = '';
-  const notes = Note.list();
+  let notes = Note.list();
+
+  // Sort alphabetically by title
+  notes.sort((a,b)=>a.title.localeCompare(b.title));
+
+  // Move active note to the top
+  if (activeNote) {
+    notes = [activeNote, ...notes.filter(n=>n.id !== activeNote.id)];
+  }
 
   for (const note of notes) {
     const li = document.createElement('li');
@@ -116,6 +126,51 @@ resetButton?.addEventListener('click', () => {
       loadNote(activeNote);
     }
   });
+});
+
+newNoteButton.addEventListener('click', () => {
+  const autosave = NoteSession.getAutosave();
+  const hasUnsaved =
+    autosave &&
+    (autosave.noteId === null || autosave.content !== activeNote?.content);
+
+  if (hasUnsaved) {
+    showModal({
+      message: 'There is unsaved data. What would you like to do?',
+      buttons: [
+        {
+          label: 'Save changes',
+          variant: 'blue',
+          action: () => {
+            if (activeNote) {
+              activeNote.content = editor.value;
+              activeNote.save();
+              NoteSession.clearAutosave();
+              const newNote = Note.createNew();
+              loadNote(newNote);
+            }
+          },
+        },
+        {
+          label: 'Discard changes',
+          variant: 'red',
+          action: () => {
+            NoteSession.clearAutosave();
+            const newNote = Note.createNew();
+            loadNote(newNote);
+          },
+        },
+        {
+          label: 'Cancel',
+          variant: 'gray',
+        },
+      ],
+    });
+  } else {
+    NoteSession.clearAutosave();
+    const newNote = Note.createNew();
+    loadNote(newNote);
+  }
 });
 
 // toggle hide/reveal the sidebar
