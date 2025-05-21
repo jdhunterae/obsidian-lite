@@ -35,10 +35,10 @@ This is a minimalist, Obsidian-inspired note-taking app that runs entirely in yo
 
 All notes are stored **only in your browser** using `localStorage`.
 
-- ✅ No notes are ever sent to a server
-- ❌ If you clear your browser data or switch devices, your notes will be lost unless exported manually
-- ✅ Your notes are private, secure, and offline by design
-- 🛟 Backup regularly if you're writing anything important!
+- No notes are ever sent to a server
+- If you clear your browser data or switch devices, your notes will be lost unless exported manually
+- Your notes are private, secure, and offline by design
+- Backup regularly if you're writing anything important!
 
 ---
 
