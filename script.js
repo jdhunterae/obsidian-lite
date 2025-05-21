@@ -65,17 +65,5 @@ resetButton?.addEventListener('click', () => {
 });
 
 toggleSidebarButton.addEventListener('click', () => {
-  const isHidden = sidebar.classList.toggle('hidden');
-
-  if (isHidden) {
-    editor.classList.remove('w-1/2');
-    preview.classList.remove('w-1/2');
-    editor.classList.add('w-1/2', 'md:w-1/2', 'lg:w-1/2');
-    preview.classList.add('w-1/2', 'md:w-1/2', 'lg:w-1/2');
-  } else {
-    editor.classList.remove('w-1/2');
-    preview.classList.remove('w-1/2');
-    editor.classList.add('w-full');
-    preview.classList.add('w-full');
-  }
+  sidebar.classList.toggle('hidden');
 });
