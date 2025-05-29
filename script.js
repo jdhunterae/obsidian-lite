@@ -60,6 +60,10 @@ function renderSidebar() {
               label: 'Discard changes',
               variant: 'red',
               action: () => {
+                if (activeNote?.isEmpty() && Note.load(activeNote.id)) {
+                  activeNote.delete();
+                }
+
                 NoteSession.clearAutosave();
                 NoteSession.clearUnsaved();
                 loadNote(note);
@@ -197,6 +201,10 @@ newNoteButton.addEventListener('click', () => {
           label: 'Discard changes',
           variant: 'red',
           action: () => {
+            if (activeNote?.isEmpty() && Note.load(activeNote.id)) {
+              activeNote.delete();
+            }
+
             NoteSession.clearAutosave();
             NoteSession.clearUnsaved();
             const newNote = Note.createNew();

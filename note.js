@@ -16,6 +16,10 @@ class Note {
     return `Untitled ${this.id}`;
   }
 
+  isEmpty() {
+    return !this.content.trim();
+  }
+
   save() {
     const allNotes = Note.loadAll();
     allNotes[this.id] = { id: this.id, content: this.content };
@@ -48,7 +52,7 @@ class Note {
   static createNew() {
     const id = `note-${Date.now()}`;
     const note = new Note(id, '');
-    note.save();
+    // note.save(); # Disabling because this creates empty notes every time the user clicks off of a new, unsaved note.
     return note;
   }
 }
