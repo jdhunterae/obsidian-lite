@@ -12,9 +12,11 @@ This is a minimalist, Obsidian-inspired note-taking app that runs entirely in yo
 - [x] Store and retrieve notes using browser `localStorage`
 - [x] Abstracted `Note` model for future-proof storage and logic separation
 - [x] Sidebar with toggle visibility
-- [ ] Navigate between multiple notes
-- [ ] Parse `[[backlinks]]` to create internal links
-- [ ] View notes that link *to* the current note (backlinks section)
+- [x] Navigate between multiple notes
+- [x] Autosave drafts with optional restore on reload
+- [x] Unsaved change detection with modal prompts
+- [x] Cleanup of abandoned, empty notes
+- [x] Visual indicator for unsaved changes in sidebar
 - [x] Responsive, minimalist UI with Tailwind
 - [x] Custom modals and toast notifications for UX
 
@@ -47,12 +49,13 @@ All notes are stored **only in your browser** using `localStorage`.
 ## File Structure
 
 ```
-index.html      # The app's main layout and structure
-style.css       # Optional global styles (currently used only for smooth scrolling)
-script.js       # Core app logic (editor, save/load, scroll sync)
-modal.js        # Modal, confirm dialog, and toast system
-note.js         # Note model abstraction for clean logic and future storage flexibility
-README.md       # Project description and progress
+index.html         # App layout and DOM structure
+style.css          # Optional CSS styles (e.g., for scroll or layout tweaks)
+script.js          # Main logic: editor interaction, save/load, sidebar updates
+note.js            # Note model for managing content and metadata
+note_session.js    # Session manager: autosave, active note ID, unsaved state tracking
+modal.js           # Custom modals, confirmations, and toast UI
+README.md          # Project description and development progress
 ```
 
 ---
